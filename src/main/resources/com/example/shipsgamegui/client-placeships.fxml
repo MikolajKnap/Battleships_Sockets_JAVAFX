@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.canvas.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<?import javafx.scene.control.Label?>
+<StackPane xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.shipsgamegui.ClientPlaceshipsController">
+
+    <VBox alignment="CENTER">
+        <Label text="Place your ships:" style="-fx-font-size: 38;" />
+        <Label fx:id="label_shipSize" text="" style="-fx-font-size: 18;" />
+        <Canvas fx:id="gameCanvas" height="500.0" width="500.0" />
+    </VBox>
+
+</StackPane>

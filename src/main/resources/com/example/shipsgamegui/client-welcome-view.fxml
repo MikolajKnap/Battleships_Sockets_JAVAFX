@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" spacing="10" alignment="CENTER"
+      minWidth="800" minHeight="600" prefWidth="800" prefHeight="600"
+      fx:controller="com.example.shipsgamegui.ClientUsernameInputController">
+    <Label fx:id="label_welcome" text="Welcome to BattleShips" style="-fx-font-size: 44;-fx-padding: 30;"/>
+    <Label fx:id="label_username" text="Enter your username" style="-fx-font-size: 28;" />
+
+    <!-- Dodatkowy HBox dla TextField z ograniczeniem szerokości -->
+    <HBox spacing="10" alignment="CENTER">
+        <TextField fx:id="usernameTextField" style="-fx-padding: 10;" maxWidth="200" />
+    </HBox>
+
+    <Button fx:id="button_username" text="Enter" onAction="#handleUsernameConfirm"/>
+</VBox>

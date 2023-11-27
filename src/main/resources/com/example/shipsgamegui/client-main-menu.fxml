@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" spacing="10" alignment="CENTER"
+      minWidth="800" minHeight="600" prefWidth="800" prefHeight="600"
+      fx:controller="com.example.shipsgamegui.ClientMainMenuController">
+
+    <Label fx:id="label_waitingRoom" text="" style="-fx-font-size: 18;" />
+
+    <Label fx:id="label_menu" text="Choose what you want to do:" style="-fx-font-size: 18;" />
+
+    <Button fx:id="buttonCreateRoom" text="Create Room" onAction="#handleCreateRoom" style="-fx-font-size: 16;" />
+    <Button fx:id="buttonJoinRoom" text="Join Room" onAction="#handleJoinRoom" style="-fx-font-size: 16;" />
+    <Button fx:id="buttonViewRooms" text="View Rooms" onAction="#handleViewRooms" style="-fx-font-size: 16;" />
+
+    <Label fx:id="label_roomCreated" text="" style="-fx-font-size: 20;" />
+
+</VBox>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.canvas.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<StackPane xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.shipsgamegui.ClientPlaygameController">
+    <VBox alignment="CENTER">
+        <Label fx:id="label_game" style="-fx-font-size: 28;" text="Game is running" />
+        <SplitPane dividerPositions="0.5" minHeight="500.0" minWidth="600.0">
+                <StackPane>
+                    <Canvas fx:id="canvas_shooting" height="300" width="300"/>
+                </StackPane>
+                <StackPane>
+                    <Canvas fx:id="canvas_your" height="300" width="300"/>
+                </StackPane>
+
+        </SplitPane>
+    </VBox>
+</StackPane>
+
