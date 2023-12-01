@@ -47,12 +47,7 @@ public class Server {
         return rooms;
     }
 
-    /**
-     * Funkcja do tworzenia nowych pokoi, jest tutaj uzyte synchronized zeby tylko 1 watek na raz mogl uzyc tej funkcji
-     * @param roomName String parameter to define room name
-     * @param host ClientHandler parameter to define host of the room
-     * @return
-     */
+
     public synchronized Room createRoom(String roomName, ClientHandler host) {
         Room room = new Room(roomName, host);
         rooms.add(room);

@@ -13,20 +13,7 @@ import java.util.concurrent.atomic.AtomicReference;
 public class ClientApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(ClientApplication.class.getResource("client-welcome-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 800, 600);
-
-        stage.setMinWidth(800);
-        stage.setMinHeight(600);
-        stage.setMaxWidth(1000);
-        stage.setMaxHeight(800);
-
-        stage.setTitle("BATTLESHIPS GAME");
-        stage.setScene(scene);
-        stage.show();
-
-        ClientSocketConnection.initialize();
-
+        ClientGUISettings.startWindow("client-ip.fxml", "SERVER");
     }
 
     public static void main(String[] args) {

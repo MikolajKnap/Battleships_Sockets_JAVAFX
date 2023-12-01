@@ -21,49 +21,17 @@ public class ClientUsernameInputController {
     @FXML
     private void handleUsernameConfirm(ActionEvent event) {
         String enteredUsername = usernameTextField.getText();
-
-        if (enteredUsername.length() > 15 || enteredUsername.isEmpty()) {
-            showAlert("Enter valid nickname!");
-        }
-        else {
-            System.out.printf(enteredUsername);
+        if(enteredUsername.length() < 15 && !enteredUsername.isEmpty()){
             ClientSocketConnection.sendMessage(enteredUsername);
-            openMainMenu();
+            if(ClientSocketConnection.readMessage().equals("ACK")){
+                ClientGUISettings.initializeNewWindow("client-main-menu.fxml","MENU", usernameTextField);
+            }
+            else{
+                ClientGUISettings.showAlert("Username taken");
+            }
+        }
+        else{
+            ClientGUISettings.showAlert("Enter valid nickname!");
         }
     }
-
-    private void showAlert(String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Error");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
-
-    private void openMainMenu() {
-        try {
-            // Ładowanie pliku FXML dla kolejnego widoku
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("client-main-menu.fxml"));
-            Parent root = loader.load();
-
-            // Tworzenie nowego okna
-            Stage mainMenuStage = new Stage();
-            mainMenuStage.setTitle("MENU");
-            mainMenuStage.setScene(new Scene(root, 800, 600));
-            mainMenuStage.setMinWidth(800);
-            mainMenuStage.setMinHeight(600);
-            mainMenuStage.setMaxWidth(1000);
-            mainMenuStage.setMaxHeight(800);
-
-            // Pokazanie nowego okna
-            mainMenuStage.show();
-
-            // Zamknięcie obecnej sceny (okna)
-            Stage currentStage = (Stage) usernameTextField.getScene().getWindow();
-            currentStage.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
 }

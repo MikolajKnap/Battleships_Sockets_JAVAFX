@@ -1,5 +1,6 @@
 package server;
 
+import com.example.shipsgamegui.ClientGUISettings;
 import com.example.shipsgamegui.SerializableArrayList;
 
 import java.io.*;
@@ -12,6 +13,7 @@ import java.util.concurrent.CountDownLatch;
 public class ClientHandler implements Runnable {
 
     public static Set<ClientHandler> clientHandlers = new HashSet<>();
+    private static ArrayList<String> usernamesList = new ArrayList<>();
     private Socket socket;
     private Server server;
     private Room currentRoom;
@@ -31,18 +33,32 @@ public class ClientHandler implements Runnable {
             this.bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             this.objectInputStream = new ObjectInputStream(socket.getInputStream());
             this.objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+
+
             clientHandlers.add(this);
 
         } catch (IOException e) {
             e.printStackTrace();
-            // TODO : handle
+            //TODO : handle
         }
     }
 
     @Override
     public void run() {
         try {
-            username = bufferedReader.readLine();
+            while(username == null){
+                username = bufferedReader.readLine();
+                if(!usernamesList.contains(username)){
+                    sendMessage("ACK");
+                    usernamesList.add(username);
+                }
+                else{
+                    username = null;
+                    sendMessage("NACK");
+                }
+            }
+
+
 
             String messageFromClient;
             label:

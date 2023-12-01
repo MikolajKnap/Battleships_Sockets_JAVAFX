@@ -1,7 +1,10 @@
 package com.example.shipsgamegui;
 
+import javafx.application.Platform;
+
 import java.io.*;
 import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.concurrent.CompletableFuture;
 
@@ -13,22 +16,21 @@ public class ClientSocketConnection {
     public static BufferedWriter bufferedWriter;
     private static CompletableFuture<String> responseFuture;
 
+//    public static boolean listening = false;
+//    public static String lastReceivedMessageFromServer;
+
     private static ArrayList<ArrayList<String>> ownBoard;
 
-    public static void initialize(){
-        try {
-            socket = new Socket("localhost",1234);
-            objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
-            bufferedWriter = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-            bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            objectInputStream = new ObjectInputStream(socket.getInputStream());
-            responseFuture = new CompletableFuture<>();
-            ownBoard = new ArrayList<>();
-        }
-        catch (IOException e) {
-            // TODO : handle
-            throw new RuntimeException(e);
-        }
+    public static void initialize(String ip) throws IOException {
+        socket = new Socket(ip,1234);
+        // = true;
+        //startListening();
+        objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+        bufferedWriter = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+        bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        objectInputStream = new ObjectInputStream(socket.getInputStream());
+        responseFuture = new CompletableFuture<>();
+        ownBoard = new ArrayList<>();
     }
     public static void sendMessage(String message){
         try {
@@ -41,6 +43,14 @@ public class ClientSocketConnection {
         }
 
     }
+
+//    public static void startListening(){
+//        CompletableFuture.runAsync(() -> {
+//            while(socket.isConnected() && listening){
+//                lastReceivedMessageFromServer = readMessage();
+//            }
+//        });
+//    }
 
     public static String readMessage() {
         try {
@@ -103,9 +113,6 @@ public class ClientSocketConnection {
         ClientSocketConnection.ownBoard = ownBoard;
     }
 
-    public static void setResponseFuture(CompletableFuture<String> future) {
-        responseFuture = future;
-    }
 
 
 }
