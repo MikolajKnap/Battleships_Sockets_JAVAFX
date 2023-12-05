@@ -1,10 +1,7 @@
 package com.example.shipsgamegui;
 
-import javafx.application.Platform;
-
 import java.io.*;
 import java.net.Socket;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.concurrent.CompletableFuture;
 
@@ -14,23 +11,23 @@ public class ClientSocketConnection {
     public static ObjectInputStream objectInputStream;
     public static BufferedReader bufferedReader;
     public static BufferedWriter bufferedWriter;
-    private static CompletableFuture<String> responseFuture;
 
-//    public static boolean listening = false;
-//    public static String lastReceivedMessageFromServer;
 
     private static ArrayList<ArrayList<String>> ownBoard;
 
-    public static void initialize(String ip) throws IOException {
-        socket = new Socket(ip,1234);
-        // = true;
-        //startListening();
-        objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
-        bufferedWriter = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-        bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        objectInputStream = new ObjectInputStream(socket.getInputStream());
-        responseFuture = new CompletableFuture<>();
-        ownBoard = new ArrayList<>();
+    public static void initialize(String ip) {
+        try{
+            socket = new Socket(ip,1234);
+            objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+            bufferedWriter = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+            bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            objectInputStream = new ObjectInputStream(socket.getInputStream());
+            ownBoard = new ArrayList<>();
+        }
+        catch (IOException e){
+            close();
+        }
+
     }
     public static void sendMessage(String message){
         try {
@@ -38,40 +35,38 @@ public class ClientSocketConnection {
             bufferedWriter.newLine();
             bufferedWriter.flush();
         } catch (IOException e) {
-            throw new RuntimeException(e);
-            // TODO : handle
+            close();
         }
 
     }
 
-//    public static void startListening(){
-//        CompletableFuture.runAsync(() -> {
-//            while(socket.isConnected() && listening){
-//                lastReceivedMessageFromServer = readMessage();
-//            }
-//        });
-//    }
 
     public static String readMessage() {
         try {
             return bufferedReader.readLine();
         }
         catch (IOException e) {
-            throw new RuntimeException(e);
+            close();
+            return null;
         }
     }
 
-    public void close() {
-        // TODO : finish
+    public static void close() {
         try {
-            if (socket != null && !socket.isClosed()) {
-                socket.close();
+            if (bufferedReader != null) {
+                bufferedReader.close();
             }
-            if (objectOutputStream != null) {
+            if (bufferedWriter != null) {
+                bufferedWriter.close();
+            }
+            if(objectInputStream != null){
+                objectInputStream.close();
+            }
+            if(objectOutputStream != null){
                 objectOutputStream.close();
             }
-            if (objectInputStream != null) {
-                objectInputStream.close();
+            if (socket != null) {
+                socket.close();
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -82,9 +77,9 @@ public class ClientSocketConnection {
         SerializableArrayList receivedData = null;
         try {
             receivedData = (SerializableArrayList) objectInputStream.readObject();
-        } catch (IOException | ClassNotFoundException e) {
-            throw new RuntimeException(e);
-            // TODO : handle
+        }
+        catch (IOException | ClassNotFoundException e) {
+            close();
         }
         ArrayList<ArrayList<String>> data = receivedData.getData();
         return data.get(0);
@@ -96,13 +91,8 @@ public class ClientSocketConnection {
             objectOutputStream.writeObject(serializableArrayToSend);
         }
         catch (IOException e) {
-            throw new RuntimeException(e);
+            close();
         }
-    }
-
-    public static void receiveMessageAndCompleteFuture() {
-        String message = readMessage();
-        responseFuture.complete(message);
     }
 
     public static ArrayList<ArrayList<String>> getOwnBoard() {
@@ -112,7 +102,4 @@ public class ClientSocketConnection {
     public static void setOwnBoard(ArrayList<ArrayList<String>> ownBoard) {
         ClientSocketConnection.ownBoard = ownBoard;
     }
-
-
-
 }

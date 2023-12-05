@@ -2,21 +2,14 @@ package com.example.shipsgamegui;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
-import javafx.stage.Stage;
-import server.Room;
-
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.concurrent.CompletableFuture;
 
 public class ClientPlaceshipsController {
 
@@ -28,7 +21,6 @@ public class ClientPlaceshipsController {
     private double cellSize;
 
     private int currentShipSize;
-    private int remainingShipsOfSize5;
     private int remainingShipsOfSize4;
     private int remainingShipsOfSize3;
     private int remainingShipsOfSize2;
@@ -102,15 +94,16 @@ public class ClientPlaceshipsController {
                     gameCanvas.setVisible(false);
                     ClientSocketConnection.sendArrayListArrString(arrayOfPositions);
                     ClientSocketConnection.setOwnBoard(arrayOfPositions);
-                    Thread responseThread = new Thread(() -> {
-                        String response = ClientSocketConnection.readMessage();
-                        Platform.runLater(() -> handleServerResponse(response));
-                    });
-                    responseThread.start();
+
+                    CompletableFuture<String> future = CompletableFuture.supplyAsync(ClientSocketConnection::readMessage);
+                    future.thenAccept(result -> Platform.runLater(() -> {
+                        if(result.equals("GAME_PHASE")){
+                            ClientGUISettings.initializeNewWindow("client-playgame.fxml","GAME", label_shipSize);                }
+                    }));
                 }
             }
             else{
-                showAlert("Wrong place!");
+                ClientGUISettings.showAlert("Wrong place!");
             }
         }
 
@@ -248,40 +241,4 @@ public class ClientPlaceshipsController {
         }
     }
 
-    private void handleServerResponse(String response) {
-        try {
-            if ("GAME_PHASE".equals(response)) {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("client-playgame.fxml"));
-                Parent root = loader.load();
-
-                // Tworzenie nowego okna
-                Stage mainMenuStage = new Stage();
-                mainMenuStage.setTitle("GAME");
-                mainMenuStage.setScene(new Scene(root, 800, 600));
-                mainMenuStage.setMinWidth(800);
-                mainMenuStage.setMinHeight(600);
-                mainMenuStage.setMaxWidth(1000);
-                mainMenuStage.setMaxHeight(800);
-
-                // Pokazanie nowego okna
-                mainMenuStage.show();
-
-                // Zamknięcie obecnej sceny (okna)
-                Stage currentStage = (Stage) label_shipSize.getScene().getWindow();
-                currentStage.close();
-            } else {
-                System.out.println("Odpowiedź od serwera: " + response);
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    private void showAlert(String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Error");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
 }

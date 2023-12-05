@@ -1,17 +1,10 @@
 package com.example.shipsgamegui;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
-
-import java.io.IOException;
+import java.util.concurrent.CompletableFuture;
 
 public class ClientUsernameInputController {
 
@@ -23,12 +16,17 @@ public class ClientUsernameInputController {
         String enteredUsername = usernameTextField.getText();
         if(enteredUsername.length() < 15 && !enteredUsername.isEmpty()){
             ClientSocketConnection.sendMessage(enteredUsername);
-            if(ClientSocketConnection.readMessage().equals("ACK")){
-                ClientGUISettings.initializeNewWindow("client-main-menu.fxml","MENU", usernameTextField);
-            }
-            else{
-                ClientGUISettings.showAlert("Username taken");
-            }
+
+            CompletableFuture<String> future = CompletableFuture.supplyAsync(ClientSocketConnection::readMessage);
+            future.thenAccept(result -> {
+                Platform.runLater(() -> {
+                    if(result.equals("ACK")){
+                        ClientGUISettings.initializeNewWindow("client-main-menu.fxml","MENU", usernameTextField);                }
+                    else{
+                        ClientGUISettings.showAlert("Username taken");
+                    }
+                });
+            });
         }
         else{
             ClientGUISettings.showAlert("Enter valid nickname!");

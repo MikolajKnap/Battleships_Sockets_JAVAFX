@@ -1,6 +1,5 @@
 package server;
 
-import com.example.shipsgamegui.ClientGUISettings;
 import com.example.shipsgamegui.SerializableArrayList;
 
 import java.io.*;
@@ -34,139 +33,151 @@ public class ClientHandler implements Runnable {
             this.objectInputStream = new ObjectInputStream(socket.getInputStream());
             this.objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
 
+            this.username = null;
 
             clientHandlers.add(this);
 
         } catch (IOException e) {
-            e.printStackTrace();
-            //TODO : handle
+            closeEverything();
         }
     }
+
+    private void usernamePhase() throws IOException, ClassNotFoundException {
+        while(username == null){
+            username = bufferedReader.readLine();
+            if(!usernamesList.contains(username)){
+                sendMessage("ACK");
+                usernamesList.add(username);
+            }
+            else{
+                username = null;
+                sendMessage("NACK");
+            }
+        }
+    }
+
+    private void menuPhase() throws IOException {
+        String messageFromClient;
+        label:
+        while (socket.isConnected()) {
+            messageFromClient = bufferedReader.readLine();
+            switch (messageFromClient) {
+                case "1" -> {
+                    String roomName = String.format(this.username + "'s Room");
+                    currentRoom = server.createRoom(roomName, this);
+                    break label;
+                }
+                case "2" -> {
+                    String roomName = bufferedReader.readLine();
+                    Room roomToJoin = server.getRooms().stream()
+                            .filter(room -> room.getRoomName().equals(roomName))
+                            .findFirst()
+                            .orElse(null);
+
+                    if (roomToJoin != null) {
+                        if (roomToJoin.getPlayer2() == null) {
+                            roomToJoin.addPlayer2(this);
+                            currentRoom = roomToJoin;
+                            currentRoom.getLatchRoomPhase().countDown();
+                            sendMessage("ACK");
+                            break label;
+                        } else {
+                            sendMessage("FULL_ROOM");
+                        }
+                    }
+                    else {
+                        sendMessage("ERROR");
+                    }
+                }
+                case "3" -> {
+                    ArrayList<ArrayList<String>> arrayToSend = new ArrayList<>();
+                    arrayToSend.add(server.getRoomsString());
+                    SerializableArrayList serializableArrayToSend = new SerializableArrayList(arrayToSend);
+                    objectOutputStream.writeObject(serializableArrayToSend);
+                }
+                default -> sendMessage("ERROR");
+            }
+        }
+    }
+
+    private void hostPlacePhaseSetter() throws IOException {
+        if(currentRoom.getHost() == this){
+            sendMessage("PLACE_PHASE");
+            System.out.println("POSZLO");
+        }
+    }
+
+    private void gamePhaseSetter() throws IOException {
+        sendMessage("GAME_PHASE");
+        if(currentRoom.getHost() == this){
+            sendMessage("play");
+        }
+        else if(currentRoom.getPlayer2() == this){
+            sendMessage("wait");
+        }
+    }
+
+    private void gameLogic() throws IOException, InterruptedException {
+        while (!currentRoom.isGameOver() && socket.isConnected()) {
+            Thread.sleep(1000);
+            if (currentRoom.getWhoToPlay() == this) {
+                String position = bufferedReader.readLine(); //a1
+                String processedShot = processShot(position, currentRoom.getArrayBasedOnPlayerWhoDoesntPlay());
+                switch (processedShot) {
+                    case "SHOT" -> {
+                        sendMessage("SHOT");
+                        sendMessageToClient("OPPONENT_SHOT",currentRoom.getPlayerWhoDoesntPlay());
+                        sendMessageToClient(position,currentRoom.getPlayerWhoDoesntPlay());
+                    }
+                    case "SINKED" -> {
+                        sendMessage("SINKED");
+                        sendMessageToClient("OPPONENT_SHOT",currentRoom.getPlayerWhoDoesntPlay());
+                        sendMessageToClient(position,currentRoom.getPlayerWhoDoesntPlay());
+                    }
+                    case "MISS" -> {
+                        sendMessage("MISS");
+                        sendMessageToClient("OPPONENT_MISS",currentRoom.getPlayerWhoDoesntPlay());
+                        sendMessageToClient(position,currentRoom.getPlayerWhoDoesntPlay());
+                        currentRoom.setWhoToPlay(currentRoom.getPlayerWhoDoesntPlay());
+                    }
+                }
+                if(currentRoom.getArrayBasedOnPlayerWhoDoesntPlay().isEmpty()){
+                    currentRoom.setGameOver(true);
+                }
+            }
+        }
+    }
+
 
     @Override
     public void run() {
         try {
-            while(username == null){
-                username = bufferedReader.readLine();
-                if(!usernamesList.contains(username)){
-                    sendMessage("ACK");
-                    usernamesList.add(username);
-                }
-                else{
-                    username = null;
-                    sendMessage("NACK");
-                }
-            }
+            usernamePhase();
 
-
-
-            String messageFromClient;
-            label:
-            while (socket.isConnected()) {
-                messageFromClient = bufferedReader.readLine();
-                switch (messageFromClient) {
-                    case "1" -> {
-                        String roomName = String.format(this.username + "'s Room");
-                        currentRoom = server.createRoom(roomName, this);
-                        break label;
-                    }
-                    case "2" -> {
-                        String roomName = bufferedReader.readLine();
-                        Room roomToJoin = server.getRooms().stream()
-                                .filter(room -> room.getRoomName().equals(roomName))
-                                .findFirst()
-                                .orElse(null);
-
-                        if (roomToJoin != null) {
-                            if (roomToJoin.getPlayer2() == null) {
-                                roomToJoin.addPlayer2(this);
-                                currentRoom = roomToJoin;
-                                currentRoom.getLatchRoomPhase().countDown();
-                                sendMessage("ACK");
-                                break label;
-                            } else {
-                                sendMessage("FULL_ROOM");
-                            }
-                        } else {
-                            sendMessage("ERROR");
-                        }
-                    }
-                    case "3" -> {
-                        ArrayList<ArrayList<String>> arrayToSend = new ArrayList<>();
-                        arrayToSend.add(server.getRoomsString());
-                        SerializableArrayList serializableArrayToSend = new SerializableArrayList(arrayToSend);
-                        objectOutputStream.writeObject(serializableArrayToSend);
-                    }
-                    default -> {
-                        sendMessage("ERROR");
-                    }
-                }
-            }
+            menuPhase();
 
             latchWaiter(currentRoom.getLatchRoomPhase(), 0);
-            if(currentRoom.getHost() == this){
-                sendMessage("PLACE_PHASE");
-                System.out.println("POSZLO");
-            }
+            hostPlacePhaseSetter();
 
             gameBoardsSetter();
 
             latchWaiter(currentRoom.getLatchPlacingPhase(),0);
 
-            sendMessage("GAME_PHASE");
-            if(currentRoom.getHost() == this){
-                sendMessage("play");
-            }
-            else if(currentRoom.getPlayer2() == this){
-                sendMessage("wait");
-            }
-            while (!currentRoom.isGameOver() && socket.isConnected()) {
-                Thread.sleep(1000);
-                if (currentRoom.getWhoToPlay() == this) {
-                    String position = bufferedReader.readLine(); //a1
-                    try {
-                        String processedShot = processShot(position, currentRoom.getArrayBasedOnPlayerWhoDoesntPlay());
-                        switch (processedShot) {
-                            case "SHOT" -> {
-                                System.out.println("You have shot opponent's ship!");
-                                sendMessage("SHOT");
-                                sendMessageToClient("OPPONENT_SHOT",currentRoom.getPlayerWhoDoesntPlay());
-                                sendMessageToClient(position,currentRoom.getPlayerWhoDoesntPlay());
-                            }
-                            case "SINKED" -> {
-                                System.out.println("You have sinked opponent's ship!");
-                                sendMessage("SINKED");
-                                sendMessageToClient("OPPONENT_SHOT",currentRoom.getPlayerWhoDoesntPlay());
-                                sendMessageToClient(position,currentRoom.getPlayerWhoDoesntPlay());
-                            }
-                            case "MISS" -> {
-                                System.out.println("You have missed!");
-                                sendMessage("MISS");
-                                sendMessageToClient("OPPONENT_MISS",currentRoom.getPlayerWhoDoesntPlay());
-                                sendMessageToClient(position,currentRoom.getPlayerWhoDoesntPlay());
-                                currentRoom.setWhoToPlay(currentRoom.getPlayerWhoDoesntPlay());
-                            }
-                        }
-                        if(currentRoom.getArrayBasedOnPlayerWhoDoesntPlay().isEmpty()){
-                            currentRoom.setGameOver(true);
-                        }
-                    } catch (IndexOutOfBoundsException e) {
-                        sendMessage("Position unavailable");
-                    }
-                }
-            }
+            gamePhaseSetter();
+
+            gameLogic();
 
             if(this == currentRoom.getWhoToPlay()){
                 sendMessage("WIN_PHASE");
+                closeEverything();
             }
             else{
                 sendMessage("LOSE_PHASE");
+                closeEverything();
             }
 
         } catch (IOException | InterruptedException | ClassNotFoundException e) {
-            throw new RuntimeException(e);
-
-            // TODO : handle
+            closeEverything();
         }
 
     }
@@ -201,6 +212,7 @@ public class ClientHandler implements Runnable {
             Thread.sleep(1000);
         }
     }
+
     public String processShot(String position, ArrayList<ArrayList<String>> playerArrayPositions) {
         String pos = position.toUpperCase();
         String searchedPosition;
@@ -229,23 +241,32 @@ public class ClientHandler implements Runnable {
         server.getRooms().remove(currentRoom);
     }
 
-    public void closeEverything(Socket socket, BufferedReader bufferedReader, BufferedWriter bufferedWriter, ObjectInputStream objectInputStream) {
+    public void removeUsernameFromList(){
+        usernamesList.remove(this.username);
+    }
+
+    public void closeEverything() {
         removeClientHandler();
         removeRoom();
+        removeUsernameFromList();
         try {
-            if (bufferedReader != null) {
-                bufferedReader.close();
+            if (this.bufferedReader != null) {
+                this.bufferedReader.close();
             }
-            if (bufferedWriter != null) {
-                bufferedWriter.close();
+            if (this.bufferedWriter != null) {
+                this.bufferedWriter.close();
             }
-            if(objectInputStream != null){
-                objectInputStream.close();
+            if(this.objectInputStream != null){
+                this.objectInputStream.close();
             }
-            if (socket != null) {
-                socket.close();
+            if(this.objectOutputStream != null){
+                this.objectOutputStream.close();
             }
-        } catch (IOException e) {
+            if (this.socket != null) {
+                this.socket.close();
+            }
+        }
+        catch (IOException e) {
             e.printStackTrace();
         }
     }

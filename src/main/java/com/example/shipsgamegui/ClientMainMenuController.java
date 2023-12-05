@@ -1,22 +1,10 @@
 package com.example.shipsgamegui;
 
-import com.example.shipsgamegui.ClientSocketConnection;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.stage.Stage;
-
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 
 public class ClientMainMenuController {
     @FXML
@@ -29,7 +17,7 @@ public class ClientMainMenuController {
     public Label label_waitingRoom;
 
     @FXML
-    private void handleCreateRoom(ActionEvent event) {
+    private void handleCreateRoom() {
         ClientSocketConnection.sendMessage("1");
 
         label_menu.setVisible(false);
@@ -39,97 +27,26 @@ public class ClientMainMenuController {
 
         label_waitingRoom.setText("Waiting for other player");
 
-
-        // Uruchom wątek, który czeka na odpowiedź od serwera
-        Thread responseThread = new Thread(() -> {
-            String response = ClientSocketConnection.readMessage();
-            Platform.runLater(() -> handleServerResponse(response));
-        });
-        responseThread.start();
-    }
-
-    private void handleServerResponse(String response) {
-        try {
-            if ("PLACE_PHASE".equals(response)) {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("client-placeships.fxml"));
-                Parent root = loader.load();
-
-                // Tworzenie nowego okna
-                Stage mainMenuStage = new Stage();
-                mainMenuStage.setTitle("PLACE SHIPS");
-                mainMenuStage.setScene(new Scene(root, 800, 600));
-                mainMenuStage.setMinWidth(800);
-                mainMenuStage.setMinHeight(600);
-                mainMenuStage.setMaxWidth(1000);
-                mainMenuStage.setMaxHeight(800);
-
-                // Pokazanie nowego okna
-                mainMenuStage.show();
-
-                // Zamknięcie obecnej sceny (okna)
-                Stage currentStage = (Stage) label_menu.getScene().getWindow();
-                currentStage.close();
-            } else {
-                System.out.println("Odpowiedź od serwera: " + response);
+        CompletableFuture<String> future = CompletableFuture.supplyAsync(ClientSocketConnection::readMessage);
+        future.thenAccept(result -> Platform.runLater(() -> {
+            if(result.equals("PLACE_PHASE")){
+                ClientGUISettings.initializeNewWindow("client-placeships.fxml","PLACE SHIPS", label_menu);
             }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+            else{
+                ClientGUISettings.showAlert("Username taken");
+            }
+        }));
     }
 
+
     @FXML
-    private void handleJoinRoom(ActionEvent event) {
+    private void handleJoinRoom() {
         ClientSocketConnection.sendMessage("3");
-        try {
-            // Ładowanie pliku FXML dla kolejnego widoku
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("client-join-room.fxml"));
-            Parent root = loader.load();
-
-            // Tworzenie nowego okna
-            Stage mainMenuStage = new Stage();
-            mainMenuStage.setTitle("JOIN ROOM");
-            mainMenuStage.setScene(new Scene(root, 800, 600));
-            mainMenuStage.setMinWidth(800);
-            mainMenuStage.setMinHeight(600);
-            mainMenuStage.setMaxWidth(1000);
-            mainMenuStage.setMaxHeight(800);
-
-            // Pokazanie nowego okna
-            mainMenuStage.show();
-
-            // Zamknięcie obecnej sceny (okna)
-            Stage currentStage = (Stage) label_menu.getScene().getWindow();
-            currentStage.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        ClientGUISettings.initializeNewWindow("client-join-room.fxml","JOIN ROOM", label_menu);
     }
     @FXML
-    private void handleViewRooms(ActionEvent event) throws IOException, ClassNotFoundException {
+    private void handleViewRooms() {
         ClientSocketConnection.sendMessage("3");
-
-        try {
-            // Ładowanie pliku FXML dla kolejnego widoku
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("client-rooms-list.fxml"));
-            Parent root = loader.load();
-
-            // Tworzenie nowego okna
-            Stage mainMenuStage = new Stage();
-            mainMenuStage.setTitle("ROOMS LIST");
-            mainMenuStage.setScene(new Scene(root, 800, 600));
-            mainMenuStage.setMinWidth(800);
-            mainMenuStage.setMinHeight(600);
-            mainMenuStage.setMaxWidth(1000);
-            mainMenuStage.setMaxHeight(800);
-
-            // Pokazanie nowego okna
-            mainMenuStage.show();
-
-            // Zamknięcie obecnej sceny (okna)
-            Stage currentStage = (Stage) label_menu.getScene().getWindow();
-            currentStage.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        ClientGUISettings.initializeNewWindow("client-rooms-list.fxml","ROOMS LIST", label_menu);
     }
 }

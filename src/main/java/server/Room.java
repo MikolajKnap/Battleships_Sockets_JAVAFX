@@ -32,16 +32,8 @@ public class Room {
         }
     }
 
-    public ArrayList<ArrayList<String>> getHostArrayList() {
-        return hostArrayList;
-    }
-
     public void setHostArrayList(ArrayList<ArrayList<String>> hostArrayList) {
         this.hostArrayList = hostArrayList;
-    }
-
-    public ArrayList<ArrayList<String>> getPlayer2ArrayList() {
-        return player2ArrayList;
     }
 
     public void setPlayer2ArrayList(ArrayList<ArrayList<String>> player2ArrayList) {
@@ -65,23 +57,6 @@ public class Room {
         }
     }
 
-    public int[][] getBoardBasedOnPlayerWhoPlays() {
-        if(whoToPlay == host){
-            return hostBoard;
-        }
-        else{
-            return player2Board;
-        }
-    }
-
-    public int[][] getBoardBasedOnPlayerWhoDoesntPlay() {
-        if(whoToPlay != host){
-            return hostBoard;
-        }
-        else{
-            return player2Board;
-        }
-    }
 
     public ArrayList<ArrayList<String>> getArrayBasedOnPlayerWhoDoesntPlay() {
         if(whoToPlay != host){
@@ -100,10 +75,6 @@ public class Room {
         return host;
     }
 
-    public void setHost(ClientHandler host){
-        this.host = host;
-    }
-
     public ClientHandler getPlayer2() {
         return player2;
     }
@@ -118,22 +89,6 @@ public class Room {
 
     public void setWhoToPlay(ClientHandler whoToPlay) {
         this.whoToPlay = whoToPlay;
-    }
-
-    public int[][] getHostBoard() {
-        return hostBoard;
-    }
-
-    public void setHostBoard(int[][] hostBoard) {
-        this.hostBoard = hostBoard;
-    }
-
-    public int[][] getPlayer2Board() {
-        return player2Board;
-    }
-
-    public void setPlayer2Board(int[][] player2Board) {
-        this.player2Board = player2Board;
     }
 
     public CountDownLatch getLatchPlacingPhase() {

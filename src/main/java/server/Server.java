@@ -27,18 +27,17 @@ public class Server {
                 thread.start();
             }
         } catch (IOException e) {
-            e.printStackTrace();
-            // TODO : handle
+            stopServer();
         }
     }
 
     public void stopServer() {
-        // TODO : finish
         try {
             if (serverSocket != null) {
                 serverSocket.close();
             }
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             e.printStackTrace();
         }
     }

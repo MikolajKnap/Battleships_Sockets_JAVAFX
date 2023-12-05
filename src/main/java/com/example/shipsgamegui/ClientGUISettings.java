@@ -28,7 +28,6 @@ public class ClientGUISettings {
         }
         catch(IOException e){
             throw new RuntimeException();
-            //TODO::to
         }
     }
 
@@ -53,7 +52,6 @@ public class ClientGUISettings {
         }
         catch(IOException e){
             throw new RuntimeException();
-            //TODO::to
         }
     }
 

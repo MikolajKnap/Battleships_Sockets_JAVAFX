@@ -1,19 +1,13 @@
 package com.example.shipsgamegui;
 
-import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
-import javafx.scene.input.MouseButton;
-import javafx.scene.text.Text;
 import javafx.scene.paint.Color;
-
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.ResourceBundle;
+
 
 public class ClientPlaygameController {
     private final int gridSize = 10;
@@ -30,7 +24,6 @@ public class ClientPlaygameController {
 
     private long lastClickTime = 0;
     private final int CLICK_INTERVAL = 1000;
-
 
 
     @FXML
@@ -125,7 +118,7 @@ public class ClientPlaygameController {
                     label_game.setText("YOU HAVE LOST");
                 }
                 else{
-                    showAlert("Wait for your turn!");
+                    ClientGUISettings.showAlert("Wait for your turn!");
                 }
             }
         }
@@ -144,14 +137,6 @@ public class ClientPlaygameController {
             // Rysowanie linii poziomych
             gc.strokeLine(0, y, canva.getWidth(), y);
         }
-    }
-
-    private void showAlert(String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Error");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
     }
 
     private void drawShip(int rowIndex, int columnIndex, Canvas canva, Color color) {
