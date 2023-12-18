@@ -56,7 +56,7 @@ public class ClientHandler implements Runnable {
         }
     }
 
-    private void menuPhase() throws IOException {
+    private void menuPhase() throws IOException, InterruptedException {
         String messageFromClient;
         label:
         while (socket.isConnected()) {

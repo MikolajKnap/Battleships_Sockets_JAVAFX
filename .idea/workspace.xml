@@ -6,19 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="e755fbc7-d2b0-46ff-8808-58ba6a8d5721" name="Changes" comment="IP panel added, username check added">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/shipsgamegui/ClientGUISettings.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/shipsgamegui/ClientGUISettings.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/shipsgamegui/ClientIpController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/shipsgamegui/ClientIpController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/shipsgamegui/ClientJoinRoomController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/shipsgamegui/ClientJoinRoomController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/shipsgamegui/ClientMainMenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/shipsgamegui/ClientMainMenuController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/shipsgamegui/ClientPlaceshipsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/shipsgamegui/ClientPlaceshipsController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/shipsgamegui/ClientPlaygameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/shipsgamegui/ClientPlaygameController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/shipsgamegui/ClientRoomsListController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/shipsgamegui/ClientRoomsListController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/shipsgamegui/ClientSocketConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/shipsgamegui/ClientSocketConnection.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/shipsgamegui/ClientUsernameInputController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/shipsgamegui/ClientUsernameInputController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/shipsgamegui/StageSwitching.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/server/ClientHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/ClientHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/server/Room.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/Room.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/server/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/Server.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,7 +26,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="master" />
+        <entry key="$PROJECT_DIR$" value="testy" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -117,7 +107,14 @@
       <option name="project" value="LOCAL" />
       <updated>1701435179326</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="IP panel added, username check added">
+      <created>1701793664356</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1701793664356</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

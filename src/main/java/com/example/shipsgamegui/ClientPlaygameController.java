@@ -1,5 +1,6 @@
 package com.example.shipsgamegui;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -82,13 +83,21 @@ public class ClientPlaygameController {
             }
             else if(message.equals("WIN_PHASE")){
                 flag = "win";
+                Platform.runLater(() -> {
+                    label_game.setText("YOU HAVE WON!");
+                });
                 fillBoard(canvas_your,Color.GOLD);
                 fillBoard(canvas_shooting,Color.GOLD);
+                break;
             }
             else if(message.equals("LOSE_PHASE")){
                 flag = "lose";
+                Platform.runLater(() -> {
+                    label_game.setText("YOU HAVE LOST!");
+                });
                 fillBoard(canvas_your,Color.GRAY);
                 fillBoard(canvas_shooting,Color.GRAY);
+                break;
             }
 
         }

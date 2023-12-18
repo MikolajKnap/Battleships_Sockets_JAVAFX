@@ -3,7 +3,6 @@ package com.example.shipsgamegui;
 import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.concurrent.CompletableFuture;
 
 public class ClientSocketConnection {
     public static Socket socket;
