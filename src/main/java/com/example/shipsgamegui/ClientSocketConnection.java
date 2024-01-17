@@ -10,11 +10,9 @@ public class ClientSocketConnection {
     public static ObjectInputStream objectInputStream;
     public static BufferedReader bufferedReader;
     public static BufferedWriter bufferedWriter;
-
-
     private static ArrayList<ArrayList<String>> ownBoard;
 
-    public static void initialize(String ip) {
+    public static boolean initialize(String ip) {
         try{
             socket = new Socket(ip,1234);
             objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
@@ -22,9 +20,12 @@ public class ClientSocketConnection {
             bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             objectInputStream = new ObjectInputStream(socket.getInputStream());
             ownBoard = new ArrayList<>();
+
+            return true;
         }
         catch (IOException e){
             close();
+            return false;
         }
 
     }

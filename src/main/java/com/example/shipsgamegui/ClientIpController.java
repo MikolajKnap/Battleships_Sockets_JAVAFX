@@ -11,8 +11,7 @@ public class ClientIpController {
     public void handleIPConfirm() {
         String enteredIp = textfield_ip.getText();
         CompletableFuture<Boolean> future = CompletableFuture.supplyAsync(() -> {
-            ClientSocketConnection.initialize(enteredIp);
-            return true;
+            return ClientSocketConnection.initialize(enteredIp);
         });
 
         future.thenAccept(result -> Platform.runLater(() -> {

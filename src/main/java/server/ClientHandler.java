@@ -1,6 +1,7 @@
 package server;
 
 import com.example.shipsgamegui.SerializableArrayList;
+import database.GameDatabase;
 
 import java.io.*;
 import java.net.Socket;
@@ -56,7 +57,7 @@ public class ClientHandler implements Runnable {
         }
     }
 
-    private void menuPhase() throws IOException, InterruptedException {
+    private void menuPhase() throws IOException, InterruptedException, NullPointerException {
         String messageFromClient;
         label:
         while (socket.isConnected()) {
@@ -103,7 +104,6 @@ public class ClientHandler implements Runnable {
     private void hostPlacePhaseSetter() throws IOException {
         if(currentRoom.getHost() == this){
             sendMessage("PLACE_PHASE");
-            System.out.println("POSZLO");
         }
     }
 
@@ -169,6 +169,7 @@ public class ClientHandler implements Runnable {
 
             if(this == currentRoom.getWhoToPlay()){
                 sendMessage("WIN_PHASE");
+                GameDatabase.saveGameResult(currentRoom.getHost().username, currentRoom.getPlayer2().username,currentRoom.getWhoToPlay().username);
                 closeEverything();
             }
             else{
@@ -176,7 +177,7 @@ public class ClientHandler implements Runnable {
                 closeEverything();
             }
 
-        } catch (IOException | InterruptedException | ClassNotFoundException e) {
+        } catch (IOException | InterruptedException | ClassNotFoundException | NullPointerException e) {
             closeEverything();
         }
 
@@ -207,9 +208,10 @@ public class ClientHandler implements Runnable {
         clientHandler.bufferedWriter.flush();
     }
 
-    public void latchWaiter(CountDownLatch latchToCheck, int valueToCheck) throws InterruptedException {
-        while (latchToCheck.getCount() > valueToCheck) {
+    public void latchWaiter(CountDownLatch latchToCheck, int valueToCheck) throws InterruptedException, IOException {
+        while (latchToCheck.getCount() > valueToCheck && socket.isConnected()) {
             Thread.sleep(1000);
+            //TODO
         }
     }
 
@@ -248,7 +250,11 @@ public class ClientHandler implements Runnable {
     public void closeEverything() {
         removeClientHandler();
         removeRoom();
-        removeUsernameFromList();
+        if(this.username != null){
+            System.out.printf("Player: %s has left%n",username);
+            removeUsernameFromList();
+        }
+
         try {
             if (this.bufferedReader != null) {
                 this.bufferedReader.close();

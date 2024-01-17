@@ -5,10 +5,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e755fbc7-d2b0-46ff-8808-58ba6a8d5721" name="Changes" comment="IP panel added, username check added">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/shipsgamegui/ClientViewGames.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/shipsgamegui/GameResult.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/database/DatabaseConnector.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/database/GameDatabase.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/com/example/shipsgamegui/client-view-games.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/shipsgamegui/ClientPlaygameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/shipsgamegui/ClientPlaygameController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/shipsgamegui/ClientGUISettings.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/shipsgamegui/ClientGUISettings.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/shipsgamegui/ClientIpController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/shipsgamegui/ClientIpController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/shipsgamegui/ClientMainMenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/shipsgamegui/ClientMainMenuController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/shipsgamegui/ClientSocketConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/shipsgamegui/ClientSocketConnection.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/server/ClientHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/ClientHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/shipsgamegui/client-main-menu.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/shipsgamegui/client-main-menu.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,7 +48,6 @@
     <option name="generalSettings">
       <MavenGeneralSettings>
         <option name="mavenHome" value="Use Maven wrapper" />
-        <option name="useMavenConfig" value="true" />
       </MavenGeneralSettings>
     </option>
   </component>
@@ -133,6 +142,15 @@
     <option name="LAST_COMMIT_MESSAGE" value="IP panel added, username check added" />
   </component>
   <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/server/ClientHandler.java</url>
+          <line>211</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
     <watches-manager>
       <configuration name="Application">
         <watch expression="comboBox.getValue()" language="JAVA" />

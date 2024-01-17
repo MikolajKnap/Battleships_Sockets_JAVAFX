@@ -16,6 +16,8 @@ public class ClientMainMenuController {
     public Label label_roomCreated;
     public Label label_waitingRoom;
 
+    public Button buttonViewGames;
+
     @FXML
     private void handleCreateRoom() {
         ClientSocketConnection.sendMessage("1");
@@ -24,6 +26,8 @@ public class ClientMainMenuController {
         buttonCreateRoom.setVisible(false);
         buttonJoinRoom.setVisible(false);
         buttonViewRooms.setVisible(false);
+        buttonViewGames.setVisible(false);
+
 
         label_waitingRoom.setText("Waiting for other player");
 
@@ -33,7 +37,7 @@ public class ClientMainMenuController {
                 ClientGUISettings.initializeNewWindow("client-placeships.fxml","PLACE SHIPS", label_menu);
             }
             else{
-                ClientGUISettings.showAlert("Username taken");
+                ClientGUISettings.showAlert("Error");
             }
         }));
     }
@@ -48,5 +52,10 @@ public class ClientMainMenuController {
     private void handleViewRooms() {
         ClientSocketConnection.sendMessage("3");
         ClientGUISettings.initializeNewWindow("client-rooms-list.fxml","ROOMS LIST", label_menu);
+    }
+
+    @FXML
+    private void handleViewGames() {
+        ClientGUISettings.initializeNewWindow("client-view-games.fxml","LAST GAMES", label_menu);
     }
 }

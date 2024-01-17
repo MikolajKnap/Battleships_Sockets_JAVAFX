@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox alignment="CENTER" minHeight="600" minWidth="800" prefHeight="600" prefWidth="800" spacing="10" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.shipsgamegui.ClientViewGames">
+    <Label fx:id="label_viewgames" style="-fx-font-size: 34;-fx-padding: 30;" text="Last games:" />
+    <TableView fx:id="tableView" prefWidth="300">
+        <columns>
+            <TableColumn text="host" fx:id="hostColumn" />
+            <TableColumn text="player2" fx:id="player2Column" />
+            <TableColumn text="winner" fx:id="winnerColumn" />
+        </columns>
+    </TableView>
+
+    <Button fx:id="button_return" onAction="#handleReturnToMenu" text="Return" />
+
+
+</VBox>

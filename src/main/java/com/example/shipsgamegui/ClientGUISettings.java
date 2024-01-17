@@ -1,10 +1,13 @@
 package com.example.shipsgamegui;
 
+import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Control;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 import java.io.IOException;
 
@@ -45,6 +48,19 @@ public class ClientGUISettings {
 
             stage.setTitle(windowTitle);
             stage.setScene(scene);
+            stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+                @Override
+                public void handle(WindowEvent windowEvent) {
+                    System.out.println("TEST");
+                    try {
+                        ClientSocketConnection.socket.close();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                    System.out.println("TEST2");
+                    System.exit(0);
+                }
+            });
             stage.show();
 
             Stage currentStage = (Stage) control.getScene().getWindow();
