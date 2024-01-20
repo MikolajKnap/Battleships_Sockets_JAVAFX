@@ -24,7 +24,7 @@ public class ClientPlaygameController {
     private int rowIndex;
 
     private long lastClickTime = 0;
-    private final int CLICK_INTERVAL = 1000;
+    private final int CLICK_INTERVAL = 500;
 
 
     @FXML

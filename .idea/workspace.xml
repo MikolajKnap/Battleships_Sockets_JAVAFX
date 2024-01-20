@@ -4,21 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e755fbc7-d2b0-46ff-8808-58ba6a8d5721" name="Changes" comment="IP panel added, username check added">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/shipsgamegui/ClientViewGames.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/shipsgamegui/GameResult.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/database/DatabaseConnector.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/database/GameDatabase.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/com/example/shipsgamegui/client-view-games.fxml" afterDir="false" />
+    <list default="true" id="e755fbc7-d2b0-46ff-8808-58ba6a8d5721" name="Changes" comment="stable version">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/shipsgamegui/ClientGUISettings.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/shipsgamegui/ClientGUISettings.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/shipsgamegui/ClientIpController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/shipsgamegui/ClientIpController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/shipsgamegui/ClientMainMenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/shipsgamegui/ClientMainMenuController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/shipsgamegui/ClientSocketConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/shipsgamegui/ClientSocketConnection.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/shipsgamegui/ClientViewGames.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/shipsgamegui/ClientViewGames.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/shipsgamegui/GameResult.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/shipsgamegui/GameResult.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/database/GameDatabase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/database/GameDatabase.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/server/ClientHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/ClientHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/shipsgamegui/client-main-menu.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/shipsgamegui/client-main-menu.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/shipsgamegui/client-view-games.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/shipsgamegui/client-view-games.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,15 +52,15 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/mikolaj/IdeaProjects/ShipsGameGUI/src/main/resources/com/example/shipsgamegui&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "master",
+    "last_opened_file_path": "C:/Users/mikoz/Desktop/Studia/Studia 5 semestr/PWJJ/ProjektPWJJ",
+    "settings.editor.selected.configurable": "preferences.lookFeel"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/main/resources/com/example/shipsgamegui" />
@@ -146,7 +138,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/server/ClientHandler.java</url>
-          <line>211</line>
+          <line>213</line>
           <option name="timeStamp" value="1" />
         </line-breakpoint>
       </breakpoints>

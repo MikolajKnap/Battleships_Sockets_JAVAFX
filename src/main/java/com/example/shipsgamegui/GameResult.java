@@ -1,12 +1,21 @@
 package com.example.shipsgamegui;
 
 public class GameResult {
-    private String host,player,winner;
+    private String host,player,winner, data;
 
-    public GameResult(String host, String player, String winner) {
+    public GameResult(String host, String player, String winner, String data) {
         this.host = host;
         this.player = player;
         this.winner = winner;
+        this.data = data;
+    }
+
+    public String getData() {
+        return data;
+    }
+
+    public void setData(String data) {
+        this.data = data;
     }
 
     public String getHost() {

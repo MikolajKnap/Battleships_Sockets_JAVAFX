@@ -15,15 +15,16 @@ public class GameDatabase {
         List<GameResult> results = new ArrayList<>();
 
         try (Connection connection = DatabaseConnector.connect()) {
-            String sql = "SELECT host, player, winner FROM game_results";
+            String sql = "SELECT host, player, winner, data FROM game_results";
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql);
                  ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
                     String host = resultSet.getString("host");
                     String player2 = resultSet.getString("player");
                     String winner = resultSet.getString("winner");
+                    String data = resultSet.getString("data");
 
-                    GameResult result = new GameResult(host, player2, winner);
+                    GameResult result = new GameResult(host, player2, winner, data);
                     results.add(result);
                 }
             }

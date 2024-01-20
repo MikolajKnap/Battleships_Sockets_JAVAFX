@@ -35,6 +35,9 @@ public class ClientViewGames implements Initializable {
     @FXML
     public TableColumn<GameResult, String> winnerColumn;
 
+    @FXML
+    public TableColumn<GameResult, String> dataColumn;
+
     public void handleReturnToMenu(ActionEvent actionEvent) {
         ClientGUISettings.initializeNewWindow("client-main-menu.fxml","MENU", label_viewgames);
     }
@@ -45,6 +48,7 @@ public class ClientViewGames implements Initializable {
             hostColumn.setCellValueFactory(new PropertyValueFactory<>("host"));
             player2Column.setCellValueFactory(new PropertyValueFactory<>("player"));
             winnerColumn.setCellValueFactory(new PropertyValueFactory<>("winner"));
+            dataColumn.setCellValueFactory(new PropertyValueFactory<>("data"));
 
             // Uzupełnij tabelę danymi z bazy danych
             return GameDatabase.getGameResults();

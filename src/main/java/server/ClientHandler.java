@@ -46,13 +46,15 @@ public class ClientHandler implements Runnable {
     private void usernamePhase() throws IOException, ClassNotFoundException {
         while(username == null){
             username = bufferedReader.readLine();
-            if(!usernamesList.contains(username)){
-                sendMessage("ACK");
-                usernamesList.add(username);
-            }
-            else{
-                username = null;
-                sendMessage("NACK");
+            synchronized (usernamesList){
+                if(!usernamesList.contains(username)){
+                    sendMessage("ACK");
+                    usernamesList.add(username);
+                }
+                else{
+                    username = null;
+                    sendMessage("NACK");
+                }
             }
         }
     }

@@ -13,6 +13,7 @@
             <TableColumn text="host" fx:id="hostColumn" />
             <TableColumn text="player2" fx:id="player2Column" />
             <TableColumn text="winner" fx:id="winnerColumn" />
+            <TableColumn text="data" fx:id="dataColumn" />
         </columns>
     </TableView>
 
