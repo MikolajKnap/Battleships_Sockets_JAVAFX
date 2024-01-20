@@ -98,6 +98,7 @@ public class ClientPlaceshipsController {
                     CompletableFuture<String> future = CompletableFuture.supplyAsync(ClientSocketConnection::readMessage);
                     future.thenAccept(result -> Platform.runLater(() -> {
                         if(result.equals("GAME_PHASE")){
+                            ClientSocketConnection.sendMessage("ACK");
                             ClientGUISettings.initializeNewWindow("client-playgame.fxml","GAME", label_shipSize);                }
                     }));
                 }

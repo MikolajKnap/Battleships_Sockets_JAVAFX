@@ -29,11 +29,12 @@ public class ClientMainMenuController {
         buttonViewGames.setVisible(false);
 
 
-        label_waitingRoom.setText("Waiting for other player");
+        label_waitingRoom.setText("Waiting for other player, time limit 1 minute");
 
         CompletableFuture<String> future = CompletableFuture.supplyAsync(ClientSocketConnection::readMessage);
         future.thenAccept(result -> Platform.runLater(() -> {
             if(result.equals("PLACE_PHASE")){
+                ClientSocketConnection.sendMessage("ACK");
                 ClientGUISettings.initializeNewWindow("client-placeships.fxml","PLACE SHIPS", label_menu);
             }
             else{

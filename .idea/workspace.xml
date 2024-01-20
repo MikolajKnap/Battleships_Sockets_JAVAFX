@@ -4,9 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e755fbc7-d2b0-46ff-8808-58ba6a8d5721" name="Changes" comment="kolumna data dodana w bazie danych i jej obsluga">
+    <list default="true" id="e755fbc7-d2b0-46ff-8808-58ba6a8d5721" name="Changes" comment="obsluga wyjscia gracza podczas fazy gry">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/shipsgamegui/ClientPlaygameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/shipsgamegui/ClientPlaygameController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/shipsgamegui/ClientMainMenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/shipsgamegui/ClientMainMenuController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/shipsgamegui/ClientPlaceshipsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/shipsgamegui/ClientPlaceshipsController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/server/ClientHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/ClientHandler.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -119,7 +120,14 @@
       <option name="project" value="LOCAL" />
       <updated>1705780850320</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="obsluga wyjscia gracza podczas fazy gry">
+      <created>1705781825969</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1705781825969</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -136,18 +144,10 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="IP panel added, username check added" />
     <MESSAGE value="kolumna data dodana w bazie danych i jej obsluga" />
-    <option name="LAST_COMMIT_MESSAGE" value="kolumna data dodana w bazie danych i jej obsluga" />
+    <MESSAGE value="obsluga wyjscia gracza podczas fazy gry" />
+    <option name="LAST_COMMIT_MESSAGE" value="obsluga wyjscia gracza podczas fazy gry" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/server/ClientHandler.java</url>
-          <line>226</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
     <watches-manager>
       <configuration name="Application">
         <watch expression="comboBox.getValue()" language="JAVA" />

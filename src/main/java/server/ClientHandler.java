@@ -47,6 +47,10 @@ public class ClientHandler implements Runnable {
         }
     }
 
+    public Socket getSocket(){
+        return this.socket;
+    }
+
     private void usernamePhase() throws IOException, ClassNotFoundException {
         while(username == null){
             username = bufferedReader.readLine();
@@ -86,6 +90,7 @@ public class ClientHandler implements Runnable {
                             roomToJoin.addPlayer2(this);
                             currentRoom = roomToJoin;
                             currentRoom.getLatchRoomPhase().countDown();
+                            sendMessageToClient("PLACE_PHASE" ,currentRoom.getHost());
                             sendMessage("ACK");
                             break label;
                         } else {
@@ -114,7 +119,7 @@ public class ClientHandler implements Runnable {
     }
 
     private void gamePhaseSetter() throws IOException {
-        sendMessage("GAME_PHASE");
+        //sendMessage("GAME_PHASE");
         if(currentRoom.getHost() == this){
             sendMessage("play");
         }
@@ -162,14 +167,12 @@ public class ClientHandler implements Runnable {
     @Override
     public void run() {
         try {
-
-
             usernamePhase();
 
             menuPhase();
 
             latchWaiter(currentRoom.getLatchRoomPhase(), 0);
-            hostPlacePhaseSetter();
+            //hostPlacePhaseSetter();
 
             gameBoardsSetter();
 
@@ -204,10 +207,12 @@ public class ClientHandler implements Runnable {
         if(currentRoom.getHost() == this){
             currentRoom.setHostArrayList(data);
             currentRoom.getLatchPlacingPhase().countDown();
+            sendMessageToClient("GAME_PHASE", currentRoom.getPlayer2());
         }
         else if(currentRoom.getPlayer2() == this){
             currentRoom.setPlayer2ArrayList(data);
             currentRoom.getLatchPlacingPhase().countDown();
+            sendMessageToClient("GAME_PHASE", currentRoom.getHost());
         }
     }
 
@@ -226,7 +231,7 @@ public class ClientHandler implements Runnable {
     public void latchWaiter(CountDownLatch latchToCheck, int valueToCheck) throws InterruptedException, IOException {
         while (latchToCheck.getCount() > valueToCheck && socket.isConnected()) {
             Thread.sleep(1000);
-            //TODO
+            if(bufferedReader.readLine() == null) break;
         }
     }
 
