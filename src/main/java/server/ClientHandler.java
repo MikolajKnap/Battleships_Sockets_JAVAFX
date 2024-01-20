@@ -23,6 +23,8 @@ public class ClientHandler implements Runnable {
     private ObjectInputStream objectInputStream;
     private ObjectOutputStream objectOutputStream;
 
+    private boolean errorFlag;
+
 
     public ClientHandler(Socket socket, Server server) {
         try {
@@ -33,6 +35,8 @@ public class ClientHandler implements Runnable {
             this.bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             this.objectInputStream = new ObjectInputStream(socket.getInputStream());
             this.objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+
+            this.errorFlag = false;
 
             this.username = null;
 
@@ -122,6 +126,10 @@ public class ClientHandler implements Runnable {
     private void gameLogic() throws IOException, InterruptedException {
         while (!currentRoom.isGameOver() && socket.isConnected()) {
             Thread.sleep(1000);
+            if(!clientHandlers.contains(currentRoom.getHost()) || !clientHandlers.contains(currentRoom.getPlayer2())){
+                errorFlag = true;
+                break;
+            }
             if (currentRoom.getWhoToPlay() == this) {
                 String position = bufferedReader.readLine(); //a1
                 String processedShot = processShot(position, currentRoom.getArrayBasedOnPlayerWhoDoesntPlay());
@@ -154,6 +162,8 @@ public class ClientHandler implements Runnable {
     @Override
     public void run() {
         try {
+
+
             usernamePhase();
 
             menuPhase();
@@ -169,13 +179,16 @@ public class ClientHandler implements Runnable {
 
             gameLogic();
 
-            if(this == currentRoom.getWhoToPlay()){
+            if(this == currentRoom.getWhoToPlay() && !errorFlag){
                 sendMessage("WIN_PHASE");
                 GameDatabase.saveGameResult(currentRoom.getHost().username, currentRoom.getPlayer2().username,currentRoom.getWhoToPlay().username);
                 closeEverything();
             }
-            else{
+            else if(this != currentRoom.getWhoToPlay() && !errorFlag){
                 sendMessage("LOSE_PHASE");
+                closeEverything();
+            }
+            if(errorFlag){
                 closeEverything();
             }
 

@@ -57,6 +57,10 @@ public class ClientPlaygameController {
     private void handleServerResponse() {
         while(ClientSocketConnection.socket.isConnected()){
             String message = ClientSocketConnection.readMessage();
+            if(message == null){
+                flag = "opponent_left";
+                break;
+            }
             if(message.equals("SHOT")){
                 drawShip(rowIndex, columnIndex, canvas_shooting, Color.rgb(40,160,200));
             }
@@ -125,6 +129,9 @@ public class ClientPlaygameController {
                 }
                 else if(flag.equals("lose")){
                     label_game.setText("YOU HAVE LOST");
+                }
+                else if(flag.equals("opponent_left")){
+                    label_game.setText("Connection error");
                 }
                 else{
                     ClientGUISettings.showAlert("Wait for your turn!");
