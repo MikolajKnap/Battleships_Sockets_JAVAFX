@@ -29,7 +29,7 @@ public class ClientMainMenuController {
         buttonViewGames.setVisible(false);
 
 
-        label_waitingRoom.setText("Waiting for other player, time limit 1 minute");
+        label_waitingRoom.setText("Waiting for other player");
 
         CompletableFuture<String> future = CompletableFuture.supplyAsync(ClientSocketConnection::readMessage);
         future.thenAccept(result -> Platform.runLater(() -> {

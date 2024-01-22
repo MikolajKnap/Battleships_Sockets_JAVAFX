@@ -130,7 +130,7 @@ public class ClientHandler implements Runnable {
 
     private void gameLogic() throws IOException, InterruptedException {
         while (!currentRoom.isGameOver() && socket.isConnected()) {
-            Thread.sleep(1000);
+            //Thread.sleep(1000);
             if(!clientHandlers.contains(currentRoom.getHost()) || !clientHandlers.contains(currentRoom.getPlayer2())){
                 errorFlag = true;
                 break;
@@ -154,6 +154,9 @@ public class ClientHandler implements Runnable {
                         sendMessageToClient("OPPONENT_MISS",currentRoom.getPlayerWhoDoesntPlay());
                         sendMessageToClient(position,currentRoom.getPlayerWhoDoesntPlay());
                         currentRoom.setWhoToPlay(currentRoom.getPlayerWhoDoesntPlay());
+                    }
+                    case "ACK" -> {
+                        continue;
                     }
                 }
                 if(currentRoom.getArrayBasedOnPlayerWhoDoesntPlay().isEmpty()){
@@ -252,7 +255,8 @@ public class ClientHandler implements Runnable {
                 }
             }
         }
-        return "MISS";
+        if(position.equals("ACK")) return "ACK";
+        else return "MISS";
     }
 
     public void removeClientHandler() {
